@@ -2,32 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.main-header {
+  position: fixed;
+  background: #ffffff;
+  top: 0;
+  width: 100%;
+  z-index: 10;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.primary-header {
+  transition: transform 250ms cubic-bezier(0.2, 0, 0, 1),
+    opacity 150ms 250ms cubic-bezier(0.2, 0, 0, 1), visibility 0ms 125ms;
+  transform: scale(1, 1) translateY(0);
+  transform-origin: 50% 50%;
+}
+.secondary-header {
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  background-color: #ffffff;
+  transition: transform 250ms cubic-bezier(0.2, 0, 0, 1),
+    opacity 150ms 250ms cubic-bezier(0.2, 0, 0, 1), visibility 0ms 125ms;
+  transform: scale(2.41, 1.75) translateY(-58px);
+  transform-origin: 50% 0%;
+}
+.show-item .primary-header {
+  visibility: hidden;
+  transition: transform 250ms cubic-bezier(0.2, 0, 0, 1),
+    opacity 150ms 250ms cubic-bezier(0.2, 0, 0, 1), visibility 0ms 125ms;
+  transform: scale(0.34, 0.72727272) translateY(-58px);
+  transform-origin: 50% 50%;
+}
+.show-item .secondary-header {
+  left: 50%;
+  visibility: visible;
+  transform-origin: 50% 0%;
+  transform: translate(-50%, -50%);
+  top: 50px;
+  background-color: #ffffff;
+}
+.main-header.show-item {
+  height: 105px;
+  
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.btn {
+  outline: none;
 }
