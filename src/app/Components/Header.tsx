@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SvgComponent from "./Applogo";
 import { Globe, Search } from "lucide-react";
 import {
@@ -22,13 +22,16 @@ import { AlignJustify, CircleUserRound } from "lucide-react";
 import { categories } from "../lib/categories";
 const Image = require("next/image").default;
 export const Header = () => {
+  const [isactive, setActive] = useState(false);
   useEffect(() => {
     const element = document.querySelector(".main-header");
     function handlescroll() {
       const scrollpos = window.scrollY;
       if (scrollpos > 3) {
+        setActive(true);
         element?.classList.add("show-item");
       } else {
+        setActive(false);
         element?.classList.remove("show-item");
       }
     }
@@ -37,21 +40,21 @@ export const Header = () => {
       window.removeEventListener("scroll", handlescroll);
     };
   }, []);
-  console.log(categories.categoryBar.categories);
+
   const categoryData = categories.categoryBar.categories;
   return (
     <div className="parent-container">
       <div className="main-header border-b-[1px] h-[25vh] border-solid pl-20 pr-20">
         <div className="flex h-20 items-center justify-between">
-          <div>
-            <SvgComponent className="text-[red]" />
+          <div className="z-10">
+            <SvgComponent className="text-[red] " />
           </div>
           <div className="primary-header flex gap-9 ">
             <div>Stays</div>
             <div>Experiences</div>
             <div>Online Experiences</div>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 z-10">
             <div>Airbnb Your Home</div>
             <div>
               <Globe />
@@ -107,8 +110,8 @@ export const Header = () => {
             </div>
           </div>
         </div>
-        <div className="secondary-header flex w-full justify-center">
-          <div className="flex w-fit justify-between gap-10 rounded-full border-[1px] border-solid pb-2 pl-6 pt-2 hover:shadow-lg">
+        <div className="secondary-header flex w-full justify-center ">
+          <div className="flex w-fit justify-between gap-10 rounded-full border-[1px] border-solid pb-2 pl-6 pt-2 hover:shadow-lg items-center">
             <div>
               <div>Anywhere</div>
             </div>
@@ -125,23 +128,25 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      <div className="filter-header h-20 px-20 mt-[26vh]">
-        <Carousel className="w-full">
+      <div
+        className={`filter-header h-20 px-20 fixed w-full bg-[#ffff] ${
+          isactive ? `active` : `inactive`
+        } flex items-center justify-between `}
+      >
+        <Carousel className="w-[75%]">
           <CarouselContent className="-ml-1">
             {Array.from(categoryData).map((item, index) => (
               <CarouselItem key={index} className="pl-1 basis-auto">
                 <div className="p-1">
-                  <Card>
-                    <CardContent className="flex flex-col items-center justify-center p-4">
+                  <Card className="shadow-none border-0">
+                    <CardContent className="flex flex-col items-center justify-center p-4 text-muted-foreground">
                       <Image
                         width={30}
                         height={30}
                         src={item.imageUrl}
                         alt="category-image"
                       />
-                      <span className="text-sm font-semibold">
-                        {item.title}
-                      </span>
+                      <span className="text-sm font-normal">{item.title}</span>
                     </CardContent>
                   </Card>
                 </div>
@@ -149,10 +154,22 @@ export const Header = () => {
             ))}
           </CarouselContent>
           <CarouselPrevious />
-          <CarouselNext />
+          <CarouselNext className="next-btn" />
         </Carousel>
+        <div className="">
+          <div></div>
+          <div>Filters</div>
+        </div>
+        <div className="">
+          <div></div>
+          <div>Filters</div>
+        </div>
       </div>
-      <div className="content-section px-20 py-20 grid grid-cols-1 gap-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 ">
+      <div
+        className={`content-section px-20 py-20 grid grid-cols-1 gap-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 absolute -z-10  ${
+          isactive ? `mt-[21vh]` : `mt-[30vh]`
+        }`}
+      >
         <div className="card flex flex-col">
           <img
             src="https://a0.muscache.com/im/pictures/miso/Hosting-53371625/original/b230521e-d33c-4c5e-a2ba-d1d5277ade92.jpeg?im_w=720"
