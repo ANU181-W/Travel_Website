@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import SvgComponent from "./Applogo";
-import { Globe, Search } from "lucide-react";
+import { Globe, Search, SlidersHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,9 +20,12 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { AlignJustify, CircleUserRound } from "lucide-react";
 import { categories } from "../lib/categories";
+import { Switch } from "@/components/ui/switch";
+
 const Image = require("next/image").default;
 export const Header = () => {
   const [isactive, setActive] = useState(false);
+
   useEffect(() => {
     const element = document.querySelector(".main-header");
     function handlescroll() {
@@ -131,38 +134,46 @@ export const Header = () => {
       <div
         className={`filter-header h-20 px-20 fixed w-full bg-[#ffff] ${
           isactive ? `active` : `inactive`
-        } flex items-center justify-between `}
+        } flex items-center  justify-between`}
       >
-        <Carousel className="w-[75%]">
+        <Carousel className="w-[68%]">
           <CarouselContent className="-ml-1">
             {Array.from(categoryData).map((item, index) => (
               <CarouselItem key={index} className="pl-1 basis-auto">
                 <div className="p-1">
                   <Card className="shadow-none border-0">
-                    <CardContent className="flex flex-col items-center justify-center p-4 text-muted-foreground">
+                    <CardContent className="flex flex-col items-center justify-center p-4 ">
                       <Image
                         width={30}
                         height={30}
                         src={item.imageUrl}
                         alt="category-image"
                       />
-                      <span className="text-sm font-normal">{item.title}</span>
+                      <span className="text-sm font-normal opacity-55">
+                        {item.title}
+                      </span>
                     </CardContent>
                   </Card>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
+          <CarouselPrevious className="next-btn" />
           <CarouselNext className="next-btn" />
         </Carousel>
-        <div className="">
-          <div></div>
-          <div>Filters</div>
-        </div>
-        <div className="">
-          <div></div>
-          <div>Filters</div>
+
+        <button className="border flex p-3 items-center rounded-xl cursor-pointer  hover:border-black hover:bg-[#f7f7f7]">
+          <SlidersHorizontal className="mr-2 w-4 h-4" />
+          <div className="leading-[1.15rem] text-[0.75rem] font-medium">
+            Filters
+          </div>
+        </button>
+
+        <div className="border flex p-3 items-center rounded-xl cursor-pointer gap-2  hover:border-black hover:bg-[#f7f7f7]">
+          <div className="leading-[1.15rem] text-[0.75rem] font-medium">
+            Display total before taxes
+          </div>
+          <Switch className="text-muted-foreground" />
         </div>
       </div>
       <div
