@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     const { name, price, description } = await req.json();
 
-    const product = await prisma.Product.create({
+    const product = await prisma.product.create({
       data: {
         name,
         price,
