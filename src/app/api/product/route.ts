@@ -1,23 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import {prisma} from "@/config/prisma";
+import { uploadImage } from "@/lib/upload";
+import { prisma } from "@/config/prisma";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, price, description } = await req.json();
+    const formData = await req.formData();
 
-    const product = await prisma.product.create({
+    const image = formData.get("image") as unknown as File;
+    const name = formData.get("name") as string;
+    const price = parseFloat(formData.get("price") as string);
+    const description = formData.get("description") as string;
+    const category = formData.get("category") as string;
+
+    if (!image || !name || isNaN(price) || !category) {
+      return NextResponse.json(
+        { error: "Missing or invalid required form fields" },
+        { status: 400 }
+      );
+    }
+
+    const uploadedImage = await uploadImage(image, "products");
+
+    const newProduct = await prisma.product.create({
       data: {
         name,
         price,
         description,
+        category: category,
+        imageUrl: uploadedImage.secure_url,
       },
     });
 
-    return NextResponse.json(product, { status: 201 });
+    return NextResponse.json({ product: newProduct }, { status: 201 });
   } catch (error) {
-    console.error(error);
+    console.error("Error uploading image or saving product:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Failed to upload image or save product" },
       { status: 500 }
     );
   }

@@ -3,15 +3,15 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-import 
-generator client {
+ generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+  url  =env("DATABASE_URL") 
+  
+  }
 
 model User {
   id        Int      @id @default(autoincrement())
@@ -24,7 +24,9 @@ model Product {
   id          Int      @id @default(autoincrement())
   name        String
   description String?
+  imageUrl    String?
   price       Float
+  category    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
