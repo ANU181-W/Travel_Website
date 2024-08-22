@@ -40,3 +40,13 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function GET(req: NextRequest) {
+  // try {
+  const productData = (await prisma.product.findMany()).sort();
+  return NextResponse.json({ data: productData }, { status: 200 });
+  // } catch (err) {
+  //   console.error("something went wrong");
+  //   return NextResponse.json({ err: "data fetching error" }, { status: 500 });
+  // }
+}
