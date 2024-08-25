@@ -21,9 +21,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AlignJustify, CircleUserRound } from "lucide-react";
 import { categories } from "../lib/categories";
 import { Switch } from "@/components/ui/switch";
-
+import { signIn, signOut, useSession } from "next-auth/react";
 const Image = require("next/image").default;
 export const Header = () => {
+  const { data: session } = useSession();
   const [isactive, setActive] = useState(false);
 
   useEffect(() => {
@@ -67,7 +68,22 @@ export const Header = () => {
                 <DropdownMenuTrigger className="btn">
                   <div className="flex p-2 border-solid border-[1px] rounded-full items-center gap-2 hover:shadow-xl mt-[-9px] ">
                     <AlignJustify />
-                    <CircleUserRound />
+                    {
+                      <DropdownMenuLabel>
+                        {session && session.user ? (
+                          <Image
+                            src={session.user?.image}
+                            width={32}
+                            height={32}
+                            alt="user-profile"
+                          ></Image>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <CircleUserRound />
+                          </div>
+                        )}
+                      </DropdownMenuLabel>
+                    }
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="right-[-30px]">
@@ -75,9 +91,30 @@ export const Header = () => {
                   <DropdownMenuItem className="hover:bg-[#ebebeb] cursor-pointer">
                     Sign up
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-[#ebebeb] cursor-pointer">
-                    Login in
-                  </DropdownMenuItem>
+                  {session ? (
+                    <DropdownMenuItem
+                      className="hover:bg-[#ebebeb] cursor-pointer"
+                      onClick={() =>
+                        signOut({
+                          callbackUrl: "http://localhost:3000/",
+                        })
+                      }
+                    >
+                      Log OUT
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem
+                      className="hover:bg-[#ebebeb] cursor-pointer"
+                      onClick={() =>
+                        signIn("google", {
+                          callbackUrl: "http://localhost:3000/",
+                        })
+                      }
+                    >
+                      Log In
+                    </DropdownMenuItem>
+                  )}
+
                   <DropdownMenuItem className="hover:bg-[#ebebeb] cursor-pointer">
                     Airbnb your home
                   </DropdownMenuItem>

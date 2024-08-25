@@ -1,5 +1,6 @@
-import Sidebar from "@/components/sidebar";
 import type { Metadata } from "next";
+
+import Sidebar from "@/components/sidebar";
 
 export const metadata: Metadata = {
   title: "Travel With Andy",
@@ -12,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main>
+    <main className="flex min-h-screen">
       <Sidebar />
-      {children}
+      <div className="flex-1 flex items-center justify-center">{children}</div>
     </main>
   );
 }
