@@ -42,7 +42,7 @@ const adminContent: AdminContentItem[] = [
         name: "Create Product",
         link: "/createProduct",
       },
-      { name: "All Products", link: "../Components/admin_components/Products" },
+      { name: "All Products", link: "/GetProduct" },
     ],
   },
 ];

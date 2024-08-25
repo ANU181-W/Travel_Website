@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
 
-    const image = formData.get("image") as unknown as File;
+    const image = formData.get("image") as File;
     const name = formData.get("name") as string;
     const price = parseFloat(formData.get("price") as string);
     const description = formData.get("description") as string;
